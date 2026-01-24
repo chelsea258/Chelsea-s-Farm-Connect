@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - Farmers Connect</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="brand">Marketplace</div>
+        <i class="fa-solid fa-filter"></i>
+    </header>
+
+    <!-- Search -->
+    <div class="search-container">
+        <input type="text" class="search-input" placeholder="Search produce...">
+    </div>
+
+    <main class="container">
+
+        <!-- Filter Chips -->
+        <div class="categories-web" id="filter-chips">
+            <!-- Reusing category styles but maybe smaller chips later -->
+        </div>
+
+        <!-- Product Grid -->
+        <div class="section-title">All Produce</div>
+        <div id="market-grid" class="products-grid">
+            <!-- Injected by JS -->
+            <!-- Will show all products here -->
+        </div>
+
+    </main>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-item">
+            <i class="fa-solid fa-house nav-icon"></i>
+            <span>Home</span>
+        </a>
+        <a href="market.html" class="nav-item active">
+            <i class="fa-solid fa-store nav-icon"></i>
+            <span>Market</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fa-solid fa-clipboard-list nav-icon"></i>
+            <span>Orders</span>
+        </a>
+        <a href="profile.html" class="nav-item">
+            <i class="fa-regular fa-user nav-icon"></i>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <script src="js/data.js"></script>
+    <script>
+        // Inline script for simplicity in this prototype, or could extend app.js
+        // For now, let's keep logic simple and reuse data
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const grid = document.getElementById('market-grid');
+            const chips = document.getElementById('filter-chips');
+
+            // Render Chips
+            chips.innerHTML = categories.map(cat => `
+        <div class="category-item" style="min-width: 60px;">
+          <div class="cat-icon" style="width: 48px; height: 48px; font-size: 1.2rem;">${cat.icon}</div>
+          <span class="cat-name" style="font-size: 0.75rem;">${cat.name}</span>
+        </div>
+      `).join('');
+
+            // Render All Products
+            // duplicating products to fill grid
+            const allProducts = [...products, ...products, ...products];
+
+            grid.innerHTML = allProducts.map(prod => `
+        <a href="product.html?id=${prod.id}" class="product-card">
+          <img src="${prod.image}" alt="${prod.name}" class="product-img">
+          <div class="product-details">
+            <div class="product-name">${prod.name}</div>
+            <div class="product-farmer">from ${farmers.find(f => f.id === prod.farmerId)?.name || 'Unknown'}</div>
+            <div class="product-price">${prod.price} / ${prod.unit}</div>
+          </div>
+        </a>
+      `).join('');
+        });
+    </script>
+</body>
+
+</html>

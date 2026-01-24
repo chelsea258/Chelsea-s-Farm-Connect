@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Page Specific Styles */
+        .product-hero {
+            height: 250px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .pd-container {
+            padding: var(--spacing-md);
+            background: white;
+            border-radius: var(--radius) var(--radius) 0 0;
+            margin-top: -20px;
+            position: relative;
+            min-height: 50vh;
+        }
+
+        .pd-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .pd-price {
+            font-size: 1.5rem;
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .pd-unit {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .pd-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: var(--spacing-md);
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: var(--spacing-md);
+            z-index: 1001;
+            /* Above nav if present, or replaces it */
+        }
+
+        .btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .farmer-mini {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--bg-color);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Simple Back Nav -->
+    <div style="position: absolute; top: 20px; left: 20px; z-index: 10;">
+        <a href="market.html"
+            style="background: rgba(0,0,0,0.5); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%;">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <img id="p-img" src="" class="product-hero">
+
+    <div class="pd-container">
+        <div class="pd-header">
+            <div>
+                <h1 id="p-name" style="font-size: 1.5rem; margin-bottom: 4px;">Loading...</h1>
+                <div style="color: green; font-size: 0.9rem;"><i class="fa-solid fa-check-circle"></i> In Stock</div>
+            </div>
+            <div id="p-price" class="pd-price">$0.00 <span class="pd-unit">/ kg</span></div>
+        </div>
+
+        <a href="profile.html" class="farmer-mini">
+            <img id="f-img" src="" style="width: 48px; height: 48px; border-radius: 50%;">
+            <div>
+                <div style="font-size: 0.8rem; color: #666;">Sold by</div>
+                <div id="f-name" style="font-weight: 600;">Farmer Name</div>
+            </div>
+            <i class="fa-solid fa-chevron-right" style="margin-left: auto; color: #999;"></i>
+        </a>
+
+        <div class="section-title" style="margin-top: 0;">Description</div>
+        <p style="color: #444; line-height: 1.6; margin-bottom: 24px;">
+            Freshly harvested from the farm. Grown using sustainable organic practices.
+            Perfect for your home cooking or retail needs. Quality guaranteed by the farmer.
+        </p>
+
+        <div class="section-title">Delivery & Logistics</div>
+        <div style="display: flex; gap: 12px; font-size: 0.9rem; color: #555;">
+            <i class="fa-solid fa-truck" style="color: var(--secondary);"></i>
+            <span>Available for pickup or local delivery within 24 hours.</span>
+        </div>
+
+        <br><br><br><br> <!-- Spacer for fixed bottom bar -->
+    </div>
+
+    <div class="pd-action-bar">
+        <button class="btn btn-outline"><i class="fa-regular fa-comment"></i> Chat</button>
+        <button class="btn btn-primary">Buy Now</button>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script>
+        // Parse URL param for Product ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const prodId = parseInt(urlParams.get('id')) || 101; // Default to 101 if missing
+
+        const product = products.find(p => p.id === prodId) || products[0];
+        const farmer = farmers.find(f => f.id === product.farmerId);
+
+        document.getElementById('p-img').src = product.image;
+        document.getElementById('p-name').innerText = product.name;
+        document.getElementById('p-price').innerHTML = `${product.price} <span class="pd-unit">/ ${product.unit}</span>`;
+
+        if (farmer) {
+            document.getElementById('f-img').src = farmer.image;
+            document.getElementById('f-name').innerText = farmer.name;
+        }
+    </script>
+</body>
+
+</html>
